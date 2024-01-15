@@ -44,3 +44,12 @@ def authenticate_principal(func):
 
         return func(p, *args, **kwargs)
     return wrapper
+
+
+def add_headers(func):
+    @wraps(func)
+    def wrapper(self,*args,**kwargs):
+        p_str = request.headers.get('X-Principal')
+        headers = json.loads(p_str)
+        return func(headers,*args,**kwargs)
+    return wrapper
